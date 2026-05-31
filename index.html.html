@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TK Global China — CRM</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23C0392B'/><text x='16' y='22' text-anchor='middle' font-family='Arial' font-weight='bold' font-size='14' fill='white'>TK</text></svg>">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--red:#C0392B;--red2:#962d22;--dark:#1a1a2e;--bg:#f0efea;--bg2:#fff;--bg3:#f5f4ef;--text:#1a1a1a;--text2:#777;--border:#e0ddd5;--sw:220px}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:13px;min-height:100vh}
+#app{display:flex;height:100vh;overflow:hidden}
+/* SIDEBAR */
+#sb{width:var(--sw);flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;transition:transform .25s}
+.sb-head{padding:16px 14px 12px;border-bottom:1px solid var(--border)}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-ic{width:36px;height:36px;background:var(--red);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;flex-shrink:0}
+.logo-t{font-size:12px;font-weight:700;line-height:1.3}
+.logo-s{font-size:10px;color:var(--text2)}
+nav{flex:1;padding:6px 0}
+.ns{padding:8px 14px 2px;font-size:10px;font-weight:700;color:var(--text2);letter-spacing:.8px;text-transform:uppercase}
+.ni{display:flex;align-items:center;gap:8px;padding:7px 14px;cursor:pointer;color:var(--text2);font-size:12px;border-left:2px solid transparent;transition:all .15s;user-select:none}
+.ni:hover{background:var(--bg3);color:var(--text)}
+.ni.on{background:#fff5f4;color:var(--red);border-left-color:var(--red);font-weight:600}
+.ni i{font-size:15px;width:17px;flex-shrink:0}
+.bc{margin-left:auto;background:var(--red);color:#fff;font-size:10px;padding:1px 6px;border-radius:9px;font-weight:700;display:none}
+.sb-foot{padding:12px 14px;border-top:1px solid var(--border)}
+.upill{display:flex;align-items:center;gap:8px;padding:4px;border-radius:6px;cursor:pointer}
+.upill:hover{background:var(--bg3)}
+.av{width:28px;height:28px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.un{font-size:12px;font-weight:600}.ur{font-size:10px;color:var(--text2)}
+/* MAIN */
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+#tbar{height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0;gap:10px}
+#tbar-t{font-size:15px;font-weight:700;white-space:nowrap}
+.tbr{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.curbtn{padding:4px 10px;border-radius:6px;border:1px solid var(--border);background:var(--bg2);font-size:11px;cursor:pointer;font-weight:700;color:var(--text2);transition:all .15s}
+.curbtn.on{background:var(--red);color:#fff;border-color:var(--red)}
+.btn{padding:6px 12px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;display:inline-flex;align-items:center;gap:5px;border:1px solid var(--border);background:var(--bg2);color:var(--text);transition:all .15s}
+.btn:hover{background:var(--bg3)}
+.btn.p{background:var(--red);color:#fff;border-color:var(--red)}
+.btn.p:hover{background:var(--red2)}
+.btn.g{background:#27500A;color:#fff;border-color:#27500A}
+.btn.g:hover{background:#3B6D11}
+.btn.sm{padding:3px 9px;font-size:11px}
+#cnt{flex:1;overflow-y:auto;padding:20px}
+.pg{display:none}.pg.on{display:block}
+.ph{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:10px;flex-wrap:wrap}
+.pt{font-size:18px;font-weight:700}.pt small{font-size:12px;color:var(--text2);font-weight:400;margin-left:6px}
+.cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:18px}
+.sc{background:var(--bg3);border-radius:8px;padding:14px 16px}
+.sl{font-size:11px;color:var(--text2);margin-bottom:4px}.sv{font-size:22px;font-weight:700}.ss{font-size:10px;color:var(--text2);margin-top:2px}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px}
+.ct{font-size:13px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:10px;font-weight:700;color:var(--text2);padding:7px 10px;border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;background:var(--bg3)}
+td{padding:8px 10px;border-bottom:1px solid var(--border);font-size:12px;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--bg3)}
+.tag{display:inline-flex;padding:2px 8px;border-radius:9px;font-size:10px;font-weight:700}
+.tg{background:#EAF3DE;color:#27500A}.ta{background:#FAEEDA;color:#854F0B}.tr{background:#FCEBEB;color:#A32D2D}.tb{background:#E6F1FB;color:#185FA5}.tgr{background:#F1EFE8;color:#5F5E5A}.tp{background:#EEEDFE;color:#3C3489}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fi{margin-bottom:14px}.fl{font-size:11px;font-weight:700;color:var(--text2);margin-bottom:4px;display:block}
+.finp{width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:8px;background:var(--bg2);color:var(--text);font-size:12px;font-family:inherit}
+.finp:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 3px rgba(192,57,43,.1)}
+textarea.finp{resize:vertical}
+.modal-wrap{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center;padding:20px}
+.modal-wrap.on{display:flex}
+.modal{background:var(--bg2);border-radius:12px;padding:22px;width:min(560px,100%);max-height:92vh;overflow-y:auto;border:1px solid var(--border);box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.mh{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.mt{font-size:16px;font-weight:700}
+.ftabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:14px}
+.ftab{padding:8px 14px;cursor:pointer;font-size:12px;font-weight:600;color:var(--text2);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
+.ftab.on{color:var(--red);border-bottom-color:var(--red)}
+.chat-wrap{display:flex;flex-direction:column;height:calc(100vh - 160px);max-height:540px}
+.chat-msgs{flex:1;overflow-y:auto;padding:12px;background:var(--bg3);border-radius:8px;margin-bottom:10px;display:flex;flex-direction:column;gap:10px}
+.cm{display:flex;gap:8px;align-items:flex-start}
+.cm.me{flex-direction:row-reverse}
+.cb2{max-width:72%;padding:8px 12px;border-radius:12px;font-size:12px;line-height:1.6;background:var(--bg2);border:1px solid var(--border)}
+.cm.me .cb2{background:var(--red);color:#fff;border-color:var(--red)}
+.cmeta{font-size:10px;color:var(--text2);margin-top:2px}
+.ci-row{display:flex;gap:8px}
+.ci-row .finp{flex:1}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.pi{display:flex;align-items:center;gap:6px;font-size:11px;padding:6px 8px;border:1px solid var(--border);border-radius:6px;cursor:pointer;transition:background .12s}
+.pi:hover{background:var(--bg3)}
+.pbar{height:5px;background:var(--bg3);border-radius:3px;overflow:hidden;margin-top:3px}
+.pfill{height:100%;border-radius:3px}
+.srow{font-size:10px;color:var(--text2);margin-bottom:3px;display:flex;justify-content:space-between}
+.exp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:18px}
+.exp-card{border:1px solid var(--border);border-radius:10px;padding:16px;cursor:pointer;transition:all .15s}
+.exp-card:hover{background:var(--bg3);border-color:var(--red)}
+.exp-icon{font-size:28px;margin-bottom:8px;display:block}
+.exp-t{font-size:13px;font-weight:700;margin-bottom:3px}
+.exp-d{font-size:11px;color:var(--text2)}
+.toast{position:fixed;bottom:24px;right:24px;background:#1a1a2e;color:#fff;padding:12px 18px;border-radius:8px;font-size:13px;font-weight:600;z-index:999;display:none;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.toast.on{display:block;animation:fadeIn .3s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+/* Mobile menu */
+#mob-toggle{display:none;background:none;border:none;cursor:pointer;font-size:22px;color:var(--text);padding:4px}
+.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:98}
+.sb-overlay.on{display:block}
+/* Responsive */
+@media(max-width:768px){
+  #sb{position:fixed;left:0;top:0;bottom:0;z-index:99;transform:translateX(-100%)}
+  #sb.open{transform:translateX(0);box-shadow:4px 0 20px rgba(0,0,0,.2)}
+  #mob-toggle{display:block}
+  .fg{grid-template-columns:1fr}
+  .cg{grid-template-columns:repeat(2,1fr)}
+  #cnt{padding:12px}
+  .exp-grid{grid-template-columns:1fr}
+}
+.tbl-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border)}
+.tbl-wrap table{border:none}
+</style>
+</head>
+<body>
+<div id="app">
+<div id="sb" role="navigation" aria-label="Menu principal">
+  <div class="sb-head">
+    <div class="logo">
+      <div class="logo-ic">TK</div>
+      <div><div class="logo-t">TK Global China</div><div class="logo-s">贸易公司 · Trading Co.</div></div>
+    </div>
+  </div>
+  <nav>
+    <div class="ns">Principal</div>
+    <div class="ni on" onclick="go('dash')"><i class="ti ti-layout-dashboard"></i>Dashboard</div>
+    <div class="ns">Operações</div>
+    <div class="ni" onclick="go('orders')"><i class="ti ti-shopping-cart"></i>Pedidos / Orders<span class="bc" id="bc-ord">0</span></div>
+    <div class="ni" onclick="go('invoices')"><i class="ti ti-file-invoice"></i>Invoices / PI</div>
+    <div class="ni" onclick="go('packing')"><i class="ti ti-package"></i>Packing List</div>
+    <div class="ni" onclick="go('containers')"><i class="ti ti-container"></i>Contêineres 集装箱</div>
+    <div class="ns">Financeiro</div>
+    <div class="ni" onclick="go('fin')"><i class="ti ti-coins"></i>Financeiro / 财务</div>
+    <div class="ni" onclick="go('fx')"><i class="ti ti-arrows-exchange"></i>Câmbio / FX</div>
+    <div class="ns">Comunicação</div>
+    <div class="ni" onclick="go('chat')"><i class="ti ti-message-circle"></i>Chat Interno<span class="bc on" id="bc-chat">1</span></div>
+    <div class="ns">Cadastros</div>
+    <div class="ni" onclick="go('clients')"><i class="ti ti-building-store"></i>Clientes / 客户</div>
+    <div class="ni" onclick="go('suppliers')"><i class="ti ti-truck-delivery"></i>Fornecedores / 供应商</div>
+    <div class="ns">Relatórios</div>
+    <div class="ni" onclick="go('reports')"><i class="ti ti-chart-bar"></i>Relatórios</div>
+    <div class="ni" onclick="go('export')"><i class="ti ti-download"></i>Exportar Docs</div>
+    <div class="ns">Admin</div>
+    <div class="ni" onclick="go('users')"><i class="ti ti-users"></i>Usuários / 用户</div>
+  </nav>
+  <div class="sb-foot">
+    <div class="upill">
+      <div class="av" id="cur-av">AD</div>
+      <div><div class="un" id="cur-un">Admin</div><div class="ur" id="cur-ur">Administrador</div></div>
+    </div>
+  </div>
+</div>
+<div class="sb-overlay" id="sb-ov" onclick="closeSb()"></div>
+
+<div id="main">
+  <div id="tbar">
+    <div style="display:flex;align-items:center;gap:10px">
+      <button id="mob-toggle" onclick="toggleSb()" aria-label="Menu"><i class="ti ti-menu-2"></i></button>
+      <div id="tbar-t">Dashboard</div>
+    </div>
+    <div class="tbr">
+      <button class="curbtn on" onclick="setCur('BRL')" id="cb-BRL">R$</button>
+      <button class="curbtn" onclick="setCur('USD')" id="cb-USD">USD</button>
+      <button class="curbtn" onclick="setCur('CNY')" id="cb-CNY">¥ RMB</button>
+      <button class="btn p sm" onclick="newItem()"><i class="ti ti-plus"></i>Novo</button>
+    </div>
+  </div>
+  <div id="cnt">
+
+    <!-- DASHBOARD -->
+    <div id="pg-dash" class="pg on">
+      <div class="ph"><div class="pt">Visão Geral <small id="dash-cur">— R$ BRL</small></div>
+        <div style="font-size:11px;color:var(--text2)" id="dash-date"></div>
+      </div>
+      <div class="cg">
+        <div class="sc"><div class="sl"><i class="ti ti-shopping-cart"></i> Pedidos</div><div class="sv" id="s-ord">0</div><div class="ss">no sistema</div></div>
+        <div class="sc"><div class="sl"><i class="ti ti-coins"></i> Receita</div><div class="sv" id="s-rev">0</div><div class="ss" id="s-rev-c">em BRL</div></div>
+        <div class="sc"><div class="sl"><i class="ti ti-container"></i> Contêineres</div><div class="sv" id="s-con">0</div><div class="ss">em trânsito</div></div>
+        <div class="sc"><div class="sl"><i class="ti ti-building-store"></i> Clientes</div><div class="sv" id="s-cli">0</div><div class="ss">cadastrados</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px" class="dash-grid">
+        <div class="card"><div class="ct">Últimos Pedidos <button class="btn sm" onclick="go('orders')">Ver todos</button></div><div id="dash-ords"><div style="text-align:center;padding:20px;color:var(--text2);font-size:12px">Nenhum pedido ainda</div></div></div>
+        <div class="card"><div class="ct">Contêineres Ativos <button class="btn sm" onclick="go('containers')">Ver todos</button></div><div id="dash-cons"><div style="text-align:center;padding:20px;color:var(--text2);font-size:12px">Nenhum contêiner ativo</div></div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px" class="dash-grid">
+        <div class="card"><div class="ct">Financeiro <span id="dash-fc" style="font-size:10px;font-weight:400;color:var(--text2)">BRL</span></div>
+          <div><div class="srow"><span>A Receber</span><span id="d-ar">0</span></div><div class="pbar"><div class="pfill" id="d-ar-b" style="width:0%;background:var(--red)"></div></div></div>
+          <div style="margin-top:12px"><div class="srow"><span>A Pagar</span><span id="d-ap">0</span></div><div class="pbar"><div class="pfill" id="d-ap-b" style="width:0%;background:#D4A017"></div></div></div>
+        </div>
+        <div class="card"><div class="ct">Câmbio Atual</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:var(--bg3);border-radius:6px"><span style="font-size:11px;color:var(--text2)">🇺🇸 USD → BRL</span><strong id="fx-d-ub">5.00</strong></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:var(--bg3);border-radius:6px"><span style="font-size:11px;color:var(--text2)">🇨🇳 CNY → BRL</span><strong id="fx-d-cb">0.70</strong></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:var(--bg3);border-radius:6px"><span style="font-size:11px;color:var(--text2)">🇨🇳 CNY → USD</span><strong id="fx-d-cu">0.14</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PEDIDOS -->
+    <div id="pg-orders" class="pg">
+      <div class="ph"><div class="pt">Pedidos / Orders <small>订单</small></div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <div style="display:flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid var(--border);border-radius:8px;background:var(--bg2)"><i class="ti ti-search" style="font-size:13px;color:var(--text2)"></i><input id="srch-ord" oninput="rOrders()" placeholder="Buscar..." style="border:none;background:transparent;outline:none;font-size:12px;color:var(--text);width:140px"></div>
+          <button class="btn p" onclick="openOrder()"><i class="ti ti-plus"></i>Novo Pedido</button>
+        </div>
+      </div>
+      <div class="tbl-wrap"><table><thead><tr><th>Nº Pedido</th><th>Cliente</th><th>Data</th><th>Valor</th><th>Moeda</th><th>Incoterm</th><th>Status</th><th>Ações</th></tr></thead><tbody id="tb-ord"></tbody></table></div>
+    </div>
+
+    <!-- INVOICES -->
+    <div id="pg-invoices" class="pg">
+      <div class="ph"><div class="pt">Invoices / Proforma <small>发票</small></div><button class="btn p" onclick="openInvoice()"><i class="ti ti-plus"></i>Nova Invoice</button></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Invoice Nº</th><th>PO Ref.</th><th>Cliente</th><th>Data</th><th>Valor</th><th>Tipo</th><th>Pagamento</th><th>Ações</th></tr></thead><tbody id="tb-inv"></tbody></table></div>
+    </div>
+
+    <!-- PACKING LIST -->
+    <div id="pg-packing" class="pg">
+      <div class="ph"><div class="pt">Packing List <small>装箱单</small></div><button class="btn p" onclick="openPacking()"><i class="ti ti-plus"></i>Nova Packing List</button></div>
+      <div class="tbl-wrap"><table><thead><tr><th>PL Nº</th><th>Invoice Ref.</th><th>Cliente</th><th>Ctns</th><th>Peso (kg)</th><th>CBM</th><th>Marks</th><th>Ações</th></tr></thead><tbody id="tb-pack"></tbody></table></div>
+    </div>
+
+    <!-- CONTÊINERES -->
+    <div id="pg-containers" class="pg">
+      <div class="ph"><div class="pt">Rastreamento de Contêineres <small>集装箱追踪</small></div><button class="btn p" onclick="openContainer()"><i class="ti ti-plus"></i>Novo Contêiner</button></div>
+      <div class="cg">
+        <div class="sc"><div class="sl">Em Trânsito</div><div class="sv" id="con-t">0</div></div>
+        <div class="sc"><div class="sl">Aguardando Embarque</div><div class="sv" id="con-w">0</div></div>
+        <div class="sc"><div class="sl">Entregues</div><div class="sv" id="con-d">0</div></div>
+      </div>
+      <div id="con-list"></div>
+    </div>
+
+    <!-- FINANCEIRO -->
+    <div id="pg-fin" class="pg">
+      <div class="ph"><div class="pt">Financeiro <small>财务管理</small></div><button class="btn p" onclick="openTx()"><i class="ti ti-plus"></i>Lançamento</button></div>
+      <div class="cg">
+        <div class="sc"><div class="sl">Saldo BRL 🇧🇷</div><div class="sv" id="f-brl">R$ 0,00</div></div>
+        <div class="sc"><div class="sl">Saldo USD 🇺🇸</div><div class="sv" id="f-usd">$ 0.00</div></div>
+        <div class="sc"><div class="sl">Saldo RMB 🇨🇳</div><div class="sv" id="f-rmb">¥ 0.00</div></div>
+      </div>
+      <div class="ftabs">
+        <div class="ftab on" onclick="setFt('all',this)">Todos</div>
+        <div class="ftab" onclick="setFt('receivable',this)">A Receber / 应收</div>
+        <div class="ftab" onclick="setFt('payable',this)">A Pagar / 应付</div>
+      </div>
+      <div class="tbl-wrap"><table><thead><tr><th>Data</th><th>Descrição</th><th>Tipo</th><th>Valor</th><th>Moeda</th><th>Status</th><th>Ações</th></tr></thead><tbody id="tb-fin"></tbody></table></div>
+    </div>
+
+    <!-- CÂMBIO -->
+    <div id="pg-fx" class="pg">
+      <div class="ph"><div class="pt">Câmbio / FX <small>汇率管理</small></div></div>
+      <div class="cg">
+        <div class="sc"><div class="sl">USD → BRL 🇺🇸→🇧🇷</div><div class="sv" id="fx-ub">5.00</div></div>
+        <div class="sc"><div class="sl">CNY → BRL 🇨🇳→🇧🇷</div><div class="sv" id="fx-cb">0.70</div></div>
+        <div class="sc"><div class="sl">CNY → USD 🇨🇳→🇺🇸</div><div class="sv" id="fx-cu">0.14</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="card"><div class="ct">Atualizar Taxas</div>
+          <div class="fi"><label class="fl">1 USD = ? BRL</label><input class="finp" id="i-ub" type="number" step="0.01" value="5.00"></div>
+          <div class="fi"><label class="fl">1 CNY = ? BRL</label><input class="finp" id="i-cb" type="number" step="0.01" value="0.70"></div>
+          <div class="fi"><label class="fl">1 CNY = ? USD</label><input class="finp" id="i-cu" type="number" step="0.0001" value="0.14"></div>
+          <button class="btn p" onclick="saveRates()"><i class="ti ti-refresh"></i>Salvar Taxas</button>
+        </div>
+        <div class="card"><div class="ct">Conversor Rápido</div>
+          <div class="fi"><label class="fl">Valor</label><input class="finp" id="cv-val" type="number" value="1000" oninput="calcFx()"></div>
+          <div class="fg"><div class="fi"><label class="fl">De</label><select class="finp" id="cv-from" onchange="calcFx()"><option>USD</option><option>CNY</option><option>BRL</option></select></div>
+          <div class="fi"><label class="fl">Para</label><select class="finp" id="cv-to" onchange="calcFx()"><option>BRL</option><option>USD</option><option>CNY</option></select></div></div>
+          <div style="font-size:22px;font-weight:700;color:var(--red);margin-top:8px" id="cv-res">= R$ 5.000,00</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHAT -->
+    <div id="pg-chat" class="pg">
+      <div class="ph"><div class="pt">Chat Interno <small>内部聊天</small></div>
+        <select class="finp" id="ch-chan" style="width:140px"><option value="geral"># geral</option><option value="pedidos"># pedidos</option><option value="financeiro"># financeiro</option><option value="logistica"># logística</option><option value="china"># china 🇨🇳</option></select>
+      </div>
+      <div class="chat-wrap">
+        <div class="chat-msgs" id="chat-msgs">
+          <div class="cm"><div class="av" style="width:26px;height:26px;font-size:9px;flex-shrink:0;background:#1a1a2e">TK</div><div><div class="cmeta">Sistema TK Global • agora</div><div class="cb2">Bem-vindo ao chat interno da TK Global China! Chat disponível para toda a equipe.</div></div></div>
+        </div>
+        <div class="ci-row">
+          <input class="finp" id="ch-inp" placeholder="Digite uma mensagem e pressione Enter..." onkeydown="if(event.key==='Enter')sendMsg()">
+          <button class="btn p" onclick="sendMsg()"><i class="ti ti-send"></i>Enviar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLIENTES -->
+    <div id="pg-clients" class="pg">
+      <div class="ph"><div class="pt">Clientes / 客户</div><button class="btn p" onclick="openClient()"><i class="ti ti-plus"></i>Novo Cliente</button></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Nome / Company</th><th>País</th><th>Email</th><th>WhatsApp / Tel</th><th>Pedidos</th><th>Ações</th></tr></thead><tbody id="tb-cli"></tbody></table></div>
+    </div>
+
+    <!-- FORNECEDORES -->
+    <div id="pg-suppliers" class="pg">
+      <div class="ph"><div class="pt">Fornecedores / 供应商</div><button class="btn p" onclick="openSupplier()"><i class="ti ti-plus"></i>Novo Fornecedor</button></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Nome / 公司名</th><th>Cidade (China)</th><th>Categoria</th><th>WeChat / Tel</th><th>Status</th><th>Ações</th></tr></thead><tbody id="tb-sup"></tbody></table></div>
+    </div>
+
+    <!-- RELATÓRIOS -->
+    <div id="pg-reports" class="pg">
+      <div class="ph"><div class="pt">Relatórios <small>报告</small></div></div>
+      <div class="ftabs">
+        <div class="ftab on" onclick="setRep('orders',this)">Pedidos</div>
+        <div class="ftab" onclick="setRep('fin',this)">Financeiro</div>
+        <div class="ftab" onclick="setRep('containers',this)">Contêineres</div>
+        <div class="ftab" onclick="setRep('clients',this)">Clientes</div>
+      </div>
+      <div id="rep-body"></div>
+    </div>
+
+    <!-- EXPORTAR -->
+    <div id="pg-export" class="pg">
+      <div class="ph"><div class="pt">Exportar Documentos <small>导出文件</small></div></div>
+      <div class="exp-grid">
+        <div class="exp-card" onclick="exportCsv('orders')"><span class="exp-icon"><i class="ti ti-file-spreadsheet" style="color:#27500A;font-size:30px"></i></span><div class="exp-t">Pedidos CSV/Excel</div><div class="exp-d">Relatório de todos os pedidos em formato CSV (abre no Excel)</div></div>
+        <div class="exp-card" onclick="exportCsv('fin')"><span class="exp-icon"><i class="ti ti-file-spreadsheet" style="color:#27500A;font-size:30px"></i></span><div class="exp-t">Financeiro CSV</div><div class="exp-d">Fluxo de caixa BRL/USD/RMB para Excel</div></div>
+        <div class="exp-card" onclick="exportCsv('containers')"><span class="exp-icon"><i class="ti ti-file-spreadsheet" style="color:#185FA5;font-size:30px"></i></span><div class="exp-t">Contêineres CSV</div><div class="exp-d">Rastreamento completo exportado</div></div>
+        <div class="exp-card" onclick="exportCsv('clients')"><span class="exp-icon"><i class="ti ti-file-spreadsheet" style="color:#854F0B;font-size:30px"></i></span><div class="exp-t">Clientes CSV</div><div class="exp-d">Base completa de clientes</div></div>
+        <div class="exp-card" onclick="exportJson()"><span class="exp-icon"><i class="ti ti-database-export" style="color:#3C3489;font-size:30px"></i></span><div class="exp-t">Backup Completo JSON</div><div class="exp-d">Exportar todos os dados do CRM como backup</div></div>
+        <div class="exp-card" onclick="importJson()"><span class="exp-icon"><i class="ti ti-database-import" style="color:#3C3489;font-size:30px"></i></span><div class="exp-t">Restaurar Backup</div><div class="exp-d">Importar dados de um backup JSON anterior</div></div>
+      </div>
+      <input type="file" id="imp-file" accept=".json" style="display:none" onchange="doImport(event)">
+    </div>
+
+    <!-- USUÁRIOS -->
+    <div id="pg-users" class="pg">
+      <div class="ph"><div class="pt">Usuários / 用户管理</div><button class="btn p" onclick="openUser()"><i class="ti ti-plus"></i>Novo Usuário</button></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Nome</th><th>Email</th><th>Perfil</th><th>Status</th><th>Permissões</th><th>Ações</th></tr></thead><tbody id="tb-users"></tbody></table></div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- MODALS -->
+<div class="modal-wrap" id="ov-order"><div class="modal">
+  <div class="mh"><div class="mt" id="m-ord-t">Novo Pedido</div><button class="btn sm" onclick="cm('ov-order')"><i class="ti ti-x"></i></button></div>
+  <input type="hidden" id="o-id">
+  <div class="fg"><div class="fi"><label class="fl">Nº Pedido</label><input class="finp" id="o-num" placeholder="PO-2024-001"></div><div class="fi"><label class="fl">Data</label><input class="finp" id="o-date" type="date"></div></div>
+  <div class="fi"><label class="fl">Cliente</label><input class="finp" id="o-cli" placeholder="Nome do cliente"></div>
+  <div class="fi"><label class="fl">Produto / Descrição</label><input class="finp" id="o-desc" placeholder="Descrição dos itens"></div>
+  <div class="fg"><div class="fi"><label class="fl">Valor</label><input class="finp" id="o-val" type="number" step="0.01" placeholder="0.00"></div><div class="fi"><label class="fl">Moeda</label><select class="finp" id="o-cur"><option>USD</option><option>CNY</option><option>BRL</option></select></div></div>
+  <div class="fg"><div class="fi"><label class="fl">Status</label><select class="finp" id="o-st"><option value="novo">Novo</option><option value="producao">Em Produção</option><option value="pronto">Pronto</option><option value="transito">Em Trânsito</option><option value="entregue">Entregue</option><option value="cancelado">Cancelado</option></select></div><div class="fi"><label class="fl">Incoterm</label><select class="finp" id="o-inc"><option>FOB</option><option>CIF</option><option>EXW</option><option>DDP</option><option>CFR</option><option>DAP</option></select></div></div>
+  <div class="fi"><label class="fl">Observações / 备注</label><textarea class="finp" id="o-notes" rows="2" placeholder="Notas adicionais..."></textarea></div>
+  <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px"><button class="btn" onclick="cm('ov-order')">Cancelar</button><button class="btn p" onclick="saveOrder()"><i class="ti ti-check"></i>Salvar Pedido</button></div>
+</div></div>
+
+<div class="modal-wrap" id="ov-invoice"><div class="modal">
+  <div class="mh"><div class="mt">Invoice / Proforma</div><button class="btn sm" onclick="cm('ov-invoice')"><i class="ti ti-x"></i></button></div>
+  <input type="hidden" id="inv-id">
+  <div class="fg"><div class="fi"><label class="fl">Invoice Nº</label><input class="finp" id="inv-num" placeholder="INV-2024-001"></div><div class="fi"><label class="fl">Data</label><input class="finp" id="inv-date" type="date"></div></div>
+  <div class="fg"><div class="fi"><label class="fl">PO Ref.</label><input class="finp" id="inv-po" placeholder="PO-2024-001"></div><div class="fi"><label class="fl">Cliente</label><input class="finp" id="inv-cli" placeholder="Nome do cliente"></div></div>
+  <div class="fi"><label class="fl">Itens / Description of Goods</label><textarea class="finp" id="inv-items" rows="3" placeholder="Item 1 - 100 pcs x $10.00&#10;Item 2 - 50 pcs x $20.00"></textarea></div>
+  <div class="fg"><div class="fi"><label class="fl">Valor Total</label><input class="finp" id="inv-val" type="number" step="0.01" placeholder="0.00"></div><div class="fi"><label class="fl">Moeda</label><select class="finp" id="inv-cur"><option>USD</option><option>CNY</option><option>BRL</option></select></div></div>
+  <div class="fg"><div class="fi"><label class="fl">Tipo</label><select class="finp" id="inv-type"><option>Proforma Invoice</option><option>Commercial Invoice</option></select></div><div class="fi"><label class="fl">Pagamento</label><select class="finp" id="inv-pay"><option>T/T 30% + 70%</option><option>T/T 100% antecipado</option><option>L/C at sight</option><option>D/P</option><option>D/A 60 dias</option></select></div></div>
+  <div class="fg"><div class="fi"><label class="fl">Porto Origem / POL</label><input class="finp" id="inv-pol" placeholder="Shanghai / Guangzhou"></div><div class="fi"><label class="fl">Porto Destino / POD</label><input class="finp" id="inv-pod" placeholder="Santos / Paranaguá"></div></div>
+  <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px"><button class="btn" onclick="cm('ov-invoice')">Cancelar</button><button class="btn p" onclick="saveInvoice()"><i class="ti ti-check"></i>Salvar Invoice</button></div>
+</div></div>
+
+<div class="modal-wrap" id="ov-packing"><div class="modal">
+  <div class="mh"><div class="mt">Packing List / 装箱单</div><button class="btn sm" onclick="cm('ov-packing')"><i class="ti ti-x"></i></button></div>
+  <input type="hidden" id="pk-id">
+  <div class="fg"><div class="fi"><label class="fl">PL Nº</label><input class="finp" id="pk-num" placeholder="PL-2024-001"></div><div class="fi"><label class="fl">Invoice Ref.</label><input class="finp" id="pk-inv" placeholder="INV-2024-001"></div></div>
+  <div class="fi"><label class="fl">Cliente / Consignee</label><input class="finp" id="pk-cli" placeholder="Nome do cliente"></div>
+  <div class="fi"><label class="fl">Detalhes das Caixas / Packing Details</label><textarea class="finp" id="pk-desc" rows="3" placeholder="Caixa 1: 20 pcs Item A - 40x40x60cm&#10;Caixa 2: 15 pcs Item B - 50x50x70cm"></textarea></div>
+  <div class="fg"><div class="fi"><label class="fl">Qtd Caixas (Ctns)</label><input class="finp" id="pk-ctns" type="number" placeholder="0"></div><div class="fi"><label class="fl">Peso Bruto (kg)</label><input class="finp" id="pk-wt" type="number" step="0.01" placeholder="0.00"></div></div>
+  <div class="fg"><div class="fi"><label class="fl">Volume (CBM)</label><input class="finp" id="pk-cbm" type="number" step="0.001" placeholder="0.000"></div><div class="fi"><label class="fl">Marks & Numbers</label><input class="finp" id="pk-marks" placeholder="TK/2024/001/C/1-20"></div></div>
+  <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px"><button class="btn" onclick="cm('ov-packing')">Cancelar</button><button class="btn p" onclick="savePacking()"><i class="ti ti-check"></i>Salvar</button></div>
+</div></div>
+
+<div class="modal-wrap" id="ov-container"><div class="modal">
+  <div class="mh"><div class="mt" id="m-con-t">Novo Contêiner</div><button class="btn sm" onclick="cm('ov-container')"><i class="ti ti-x"></i></button></div>
+  <input type="hidden" id="con-id">
+  <div class="fg"><div class="fi"><label class="fl">Nº Contêiner / BL</label><input class="finp" id="con-num" placeholder="TCKU1234567 / BL-2024-001"></div><div class="fi"><label class="fl">PO Ref.</label><input class="finp" id="con-po" placeholder="PO-2024-001"></div></div>
+  <div class="fg"><div class="fi"><label class="fl">Cliente / Consignee</label><input class="finp" id="con-cli" placeholder="Nome do cliente"></div><div class="fi"><label class="fl">Tipo</label><select class="finp" id="con-type"><option>20' GP</option><option>40' GP</option><option>40' HC</option><option>20' RF (Reefer)</option><option>LCL</option></select></div></div>
+  <div class="fg"><div class="fi"><label class="fl">Navio / Vessel</label><input class="finp" id="con-vessel" placeholder="MSC ALICE V.002S"></div><div class="fi"><label class="fl">Armador</label><select class="finp" id="con-carrier"><option>MSC</option><option>Maersk</option><option>CMA CGM</option><option>Evergreen</option><option>COSCO</option><option>Hapag-Lloyd</option><option>ONE</option><option>Yang Ming</option><option>ZIM</option><option>PIL</option></select></div></div>
+  <div class="fg"><div class="fi"><label class="fl">Porto Origem (POL)</label><input class="finp" id="con-pol" placeholder="Shanghai / CNSHA"></div><div class="fi"><label class="fl">Porto Destino (POD)</label><input class="finp" id="con-pod" placeholder="Santos / BRSSZ"></div></div>
+  <div class="fg"><div class="fi"><label class="fl">ETD (Saída)</label><input class="finp" id="con-etd" type="date"></div><div class="fi"><label class="fl">ETA (Chegada)</label><input class="finp" id="con-eta" type="date"></div></div>
+  <div class="fi"><label class="fl">Status Atual</label><select class="finp" id="con-st"><option value="booking">Booking Confirmado</option><option value="stuffing">Stuffing / Carregamento</option><option value="origin_port">Porto de Origem</option><option value="sailing">Em Alto Mar</option><option value="transship">Transbordo</option><option value="dest_port">Porto de Destino</option><option value="customs">Desembaraço Aduaneiro</option><option value="delivered">Entregue</option></select></div>
+  <div class="fi"><label class="fl">Localização Atual / Last Event</label><input class="finp" id="con-loc" placeholder="Shanghai Port, departed. Vessel: MSC ALICE V.002S"></div>
+  <div class="fi"><label class="fl">Observações</label><textarea class="finp" id="con-notes" rows="2" placeholder="Demurrage, documentos pendentes..."></textarea></div>
+  <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px"><button class="btn" onclick="cm('ov-container')">Cancelar</button><button class="btn p" onclick="saveContainer()"><i class="ti ti-check"></i>Salvar</button></div>
+</div></div>
+
+<div class="modal-wrap" id="ov-tx"><div class="modal">
+  <div class="mh"><div class="mt">Lançamento Financeiro / 财务记录</div><button class="btn sm" onclick="cm('ov-tx')"><i class="ti ti-x"></i></button></div>
+  <input type="hidden" id="tx-id">
+  <div class="fg"><div class="fi"><label class="fl">Data</label><input class="finp" id="tx-date" type="date"></div><div class="fi"><label class="fl">Tipo</label><select class="finp" id="tx-type"><option value="receivable">A Receber / 应收</option><option value="payable">A Pagar / 应付</option></select></div></div>
+  <div class="fi"><label class="fl">Descrição</label><input class="finp" id="tx-desc" placeholder="Ex: Pagamento PO-001 Cliente XYZ"></div>
+  <div class="fg"><div class="fi"><label class="fl">Valor</label><input class="finp" id="tx-val" type="number" step="0.01" placeholder="0.00"></div><div class="fi"><label class="fl">Moeda</label><select class="finp" id="tx-cur"><option>USD</option><option>CNY</option><option>BRL</option></select></div></div>
+  <div class="fi"><label class="fl">Status</label><select class="finp" id="tx-st"><option value="pendente">Pendente</option><option value="recebido">Recebido / Pago</option><option value="atrasado">Atrasado</option></select></div>
+  <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px"><button class="btn" onclick="cm('ov-tx')">Cancelar</button><button class="btn p" onclick="saveTx()"><i class="ti ti-check"></i>Salvar</button></div>
+</div></div>
+
+<div class="modal-wrap" id="ov-client"><div class="modal">
+  <div class="mh"><div class="mt">Cliente / 新客户</div><button class="btn sm" onclick="cm('ov-client')"><i class="ti ti-x"></i></button></div>
+  <input type="hidden" id="cl-id">
+  <div class="fg"><div class="fi"><label class="fl">Nome / Company</label><input class="finp" id="cl-name" placeholder="Razão Social"></div><div class="fi"><label class="fl">País</label><input class="finp" id="cl-country" placeholder="Brasil / Portugal..."></div></div>
+  <div class="fg"><div class="fi"><label class="fl">Email</label><input class="finp" id="cl-email" type="email" placeholder="contato@empresa.com"></div><div class="fi"><label class="fl">WhatsApp / Tel</label><input class="finp" id="cl-phone" placeholder="+55 11 9..."></div></div>
+  <div class="fi"><label class="fl">Endereço / Address</label><input class="finp" id="cl-addr" placeholder="Rua, cidade, estado, CEP, país"></div>
+  <div class="fi"><label class="fl">Observações</label><textarea class="finp" id="cl-notes" rows="2" placeholder="Notas sobre o cliente..."></textarea></div>
+  <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px"><button class="btn" onclick="cm('ov-client')">Cancelar</button><button class="btn p" onclick="saveClient()"><i class="ti ti-check"></i>Salvar</button></div>
+</div></div>
+
+<div class="modal-wrap" id="ov-supplier"><div class="modal">
+  <div class="mh"><div class="mt">Fornecedor / 新供应商</div><button class="btn sm" onclick="cm('ov-supplier')"><i class="ti ti-x"></i></button></div>
+  <input type="hidden" id="sp-id">
+  <div class="fg"><div class="fi"><label class="fl">Nome / 公司名</label><input class="finp" id="sp-name" placeholder="Nome da fábrica"></div><div class="fi"><label class="fl">Cidade (China)</label><input class="finp" id="sp-city" placeholder="Guangzhou / Yiwu / Shenzhen..."></div></div>
+  <div class="fg"><div class="fi"><label class="fl">Categoria</label><input class="finp" id="sp-cat" placeholder="Eletrônicos / Têxtil / Metal..."></div><div class="fi"><label class="fl">WeChat / Tel China</label><input class="finp" id="sp-wc" placeholder="WeChat ID / +86..."></div></div>
+  <div class="fg"><div class="fi"><label class="fl">Email</label><input class="finp" id="sp-email" type="email" placeholder="factory@example.com"></div><div class="fi"><label class="fl">Status</label><select class="finp" id="sp-st"><option value="ativo">Ativo</option><option value="em_negociacao">Em Negociação</option><option value="inativo">Inativo</option></select></div></div>
+  <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px"><button class="btn" onclick="cm('ov-supplier')">Cancelar</button><button class="btn p" onclick="saveSupplier()"><i class="ti ti-check"></i>Salvar</button></div>
+</div></div>
+
+<div class="modal-wrap" id="ov-user"><div class="modal">
+  <div class="mh"><div class="mt" id="m-usr-t">Novo Usuário</div><button class="btn sm" onclick="cm('ov-user')"><i class="ti ti-x"></i></button></div>
+  <input type="hidden" id="u-id">
+  <div class="fg"><div class="fi"><label class="fl">Nome completo</label><input class="finp" id="u-name" placeholder="Nome completo"></div><div class="fi"><label class="fl">Email</label><input class="finp" id="u-email" type="email" placeholder="email@tkglobal.com"></div></div>
+  <div class="fg"><div class="fi"><label class="fl">Perfil</label><select class="finp" id="u-role" onchange="applyRole()"><option value="admin">Administrador</option><option value="comercial">Comercial</option><option value="financeiro">Financeiro</option><option value="logistica">Logística</option><option value="operacional">Operacional</option></select></div><div class="fi"><label class="fl">Status</label><select class="finp" id="u-st"><option value="ativo">Ativo</option><option value="inativo">Inativo</option></select></div></div>
+  <div style="font-size:11px;font-weight:700;color:var(--text2);margin:10px 0 8px">Permissões de Acesso aos Módulos</div>
+  <div class="pgrid">
+    <label class="pi"><input type="checkbox" id="p-orders"> Pedidos</label>
+    <label class="pi"><input type="checkbox" id="p-invoices"> Invoices</label>
+    <label class="pi"><input type="checkbox" id="p-packing"> Packing</label>
+    <label class="pi"><input type="checkbox" id="p-containers"> Contêineres</label>
+    <label class="pi"><input type="checkbox" id="p-fin"> Financeiro</label>
+    <label class="pi"><input type="checkbox" id="p-fx"> Câmbio / FX</label>
+    <label class="pi"><input type="checkbox" id="p-clients"> Clientes</label>
+    <label class="pi"><input type="checkbox" id="p-suppliers"> Fornecedores</label>
+    <label class="pi"><input type="checkbox" id="p-reports"> Relatórios</label>
+    <label class="pi"><input type="checkbox" id="p-export"> Exportar</label>
+    <label class="pi"><input type="checkbox" id="p-chat"> Chat</label>
+    <label class="pi"><input type="checkbox" id="p-users"> Usuários</label>
+  </div>
+  <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px"><button class="btn" onclick="cm('ov-user')">Cancelar</button><button class="btn p" onclick="saveUser()"><i class="ti ti-check"></i>Salvar Usuário</button></div>
+</div></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const K='tk_crm_v5';
+const CON_STEPS=[{key:'booking',label:'Booking'},{key:'stuffing',label:'Stuffing'},{key:'origin_port',label:'Porto Origem'},{key:'sailing',label:'Alto Mar'},{key:'transship',label:'Transbordo'},{key:'dest_port',label:'Porto Destino'},{key:'customs',label:'Desembaraço'},{key:'delivered',label:'Entregue'}];
+let db={orders:[],invoices:[],packing:[],containers:[],txs:[],clients:[],suppliers:[],users:[{id:'u1',name:'Admin TK Global',email:'admin@tkglobal.com',role:'admin',status:'ativo',perms:{orders:1,invoices:1,packing:1,containers:1,fin:1,fx:1,clients:1,suppliers:1,reports:1,export:1,chat:1,users:1}}],chat:[],fx:{ub:5,cb:0.70,cu:0.14}};
+let cur='BRL',ft='all',repTab='orders';
+
+function loadDB(){try{const s=localStorage.getItem(K);if(s)db=JSON.parse(s);}catch(e){}rAll();}
+function saveDB(){try{localStorage.setItem(K,JSON.stringify(db));}catch(e){}}
+
+const TITLES={dash:'Dashboard',orders:'Pedidos / Orders',invoices:'Invoices / Proforma',packing:'Packing List',containers:'Rastreamento de Contêineres',fin:'Financeiro / 财务',fx:'Câmbio / FX',chat:'Chat Interno',clients:'Clientes / 客户',suppliers:'Fornecedores / 供应商',reports:'Relatórios',export:'Exportar Documentos',users:'Usuários / 用户管理'};
+
+function go(id){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  const pg=document.getElementById('pg-'+id);if(pg)pg.classList.add('on');
+  document.getElementById('tbar-t').textContent=TITLES[id]||id;
+  document.querySelectorAll('.ni').forEach(n=>{if((n.getAttribute('onclick')||'').includes("'"+id+"'"))n.classList.add('on');});
+  if(id==='chat'){const b=document.getElementById('bc-chat');if(b){b.textContent='';b.style.display='none';}}
+  closeSb();
+  ({dash:rDash,orders:rOrders,invoices:rInvs,packing:rPack,containers:rContainers,fin:rFin,clients:rClients,suppliers:rSups,users:rUsers,reports:()=>rReport(repTab)}[id]||function(){})();
+}
+
+function toggleSb(){document.getElementById('sb').classList.toggle('open');document.getElementById('sb-ov').classList.toggle('on');}
+function closeSb(){document.getElementById('sb').classList.remove('open');document.getElementById('sb-ov').classList.remove('on');}
+
+function rAll(){
+  rDash();rOrders();rInvs();rPack();rContainers();rFin();rClients();rSups();rUsers();syncFx();calcFx();
+  document.getElementById('dash-date').textContent=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+}
+
+function setCur(c){
+  cur=c;
+  ['BRL','USD','CNY'].forEach(x=>{const b=document.getElementById('cb-'+x);if(b)b.classList.toggle('on',x===c);});
+  document.getElementById('dash-cur').textContent='— '+(c==='BRL'?'R$ BRL':c==='USD'?'$ USD':'¥ RMB');
+  document.getElementById('s-rev-c').textContent='em '+c;
+  document.getElementById('dash-fc').textContent=c;
+  rDash();rFin();
+}
+
+function toUSD(v,c){const{ub,cu}=db.fx;return c==='USD'?v:c==='CNY'?v*cu:v/ub;}
+function conv(v,c){const{ub,cu}=db.fx;const u=toUSD(v,c);return cur==='USD'?u:cur==='CNY'?u/cu:u*ub;}
+function fmt(v){if(cur==='BRL')return'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});if(cur==='USD')return'$ '+v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});return'¥ '+v.toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function fmtR(v,c){const n=Number(v)||0;if(c==='BRL')return'R$ '+n.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});if(c==='USD')return'$ '+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});return'¥ '+n.toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});}
+
+function stag(s){const m={novo:'tb',producao:'ta',pronto:'tg',transito:'ta',entregue:'tg',cancelado:'tr',pendente:'ta',recebido:'tg',atrasado:'tr',ativo:'tg',em_negociacao:'ta',inativo:'tgr',booking:'tp',stuffing:'ta',origin_port:'ta',sailing:'tb',transship:'tp',dest_port:'ta',customs:'ta',delivered:'tg'};const l={novo:'Novo',producao:'Produção',pronto:'Pronto',transito:'Em Trânsito',entregue:'Entregue',cancelado:'Cancelado',pendente:'Pendente',recebido:'Recebido',atrasado:'Atrasado',ativo:'Ativo',em_negociacao:'Em Negociação',inativo:'Inativo',booking:'Booking',stuffing:'Stuffing',origin_port:'Porto Origem',sailing:'Em Alto Mar',transship:'Transbordo',dest_port:'Porto Destino',customs:'Desembaraço',delivered:'Entregue'};return`<span class="tag ${m[s]||'tgr'}">${l[s]||s}</span>`;}
+function abtns(col,id){return`<button class="btn sm" onclick="edit('${col}','${id}')"><i class="ti ti-edit"></i></button> <button class="btn sm" onclick="del('${col}','${id}')"><i class="ti ti-trash"></i></button>`;}
+function emptyRow(msg,cols=8){return`<tr><td colspan="${cols}" style="text-align:center;padding:32px;color:var(--text2)">${msg}</td></tr>`;}
+
+function rDash(){
+  document.getElementById('s-ord').textContent=db.orders.length;
+  document.getElementById('s-cli').textContent=db.clients.length;
+  document.getElementById('s-con').textContent=db.containers.filter(c=>c.status!=='delivered').length;
+  let rev=db.invoices.reduce((a,i)=>a+conv(Number(i.val)||0,i.cur),0);
+  document.getElementById('s-rev').textContent=fmt(rev);
+  const last=db.orders.slice(-5).reverse();
+  document.getElementById('dash-ords').innerHTML=last.length?`<table><thead><tr><th>Nº Pedido</th><th>Cliente</th><th>Status</th></tr></thead><tbody>${last.map(o=>`<tr><td><strong>${o.num}</strong></td><td>${o.cli}</td><td>${stag(o.st)}</td></tr>`).join('')}</tbody></table>`:'<div style="text-align:center;padding:20px;color:var(--text2);font-size:12px">Nenhum pedido ainda. <a href="#" onclick="go(\'orders\')" style="color:var(--red)">Criar primeiro pedido →</a></div>';
+  const actCons=db.containers.filter(c=>c.status!=='delivered').slice(-3);
+  document.getElementById('dash-cons').innerHTML=actCons.length?`<table><thead><tr><th>Nº/BL</th><th>Cliente</th><th>ETA</th><th>Status</th></tr></thead><tbody>${actCons.map(c=>`<tr><td style="font-size:11px">${c.num}</td><td>${c.cli}</td><td>${c.eta||'—'}</td><td>${stag(c.st)}</td></tr>`).join('')}</tbody></table>`:'<div style="text-align:center;padding:20px;color:var(--text2);font-size:12px">Nenhum contêiner ativo.</div>';
+  let ar=db.txs.filter(t=>t.type==='receivable').reduce((a,t)=>a+conv(Number(t.val)||0,t.cur),0);
+  let ap=db.txs.filter(t=>t.type==='payable').reduce((a,t)=>a+conv(Number(t.val)||0,t.cur),0);
+  document.getElementById('d-ar').textContent=fmt(ar);document.getElementById('d-ap').textContent=fmt(ap);
+  const mx=Math.max(ar,ap,1);
+  document.getElementById('d-ar-b').style.width=Math.round(ar/mx*100)+'%';
+  document.getElementById('d-ap-b').style.width=Math.round(ap/mx*100)+'%';
+  const cnt=db.orders.filter(o=>o.st==='novo'||o.st==='producao').length;
+  const bc=document.getElementById('bc-ord');if(bc){bc.textContent=cnt;bc.style.display=cnt?'':'none';}
+  document.getElementById('fx-d-ub').textContent=db.fx.ub.toFixed(4);
+  document.getElementById('fx-d-cb').textContent=db.fx.cb.toFixed(4);
+  document.getElementById('fx-d-cu').textContent=db.fx.cu.toFixed(4);
+}
+
+function rOrders(){
+  const q=(document.getElementById('srch-ord')||{}).value||'';
+  const list=q?db.orders.filter(o=>o.num.toLowerCase().includes(q.toLowerCase())||o.cli.toLowerCase().includes(q.toLowerCase())):db.orders;
+  const tb=document.getElementById('tb-ord');
+  tb.innerHTML=list.length?list.map(o=>`<tr><td><strong>${o.num}</strong></td><td>${o.cli}</td><td>${o.date}</td><td>${fmtR(o.val,o.cur)}</td><td>${o.cur}</td><td><span class="tag tgr">${o.inc||'FOB'}</span></td><td>${stag(o.st)}</td><td>${abtns('orders',o.id)}</td></tr>`).join(''):emptyRow('Nenhum pedido. Clique em "Novo Pedido" para começar.');
+}
+function rInvs(){const tb=document.getElementById('tb-inv');tb.innerHTML=db.invoices.length?db.invoices.map(i=>`<tr><td><strong>${i.num}</strong></td><td>${i.po}</td><td>${i.cli}</td><td>${i.date}</td><td>${fmtR(i.val,i.cur)}</td><td><span class="tag tb">${(i.type||'PI').replace(' Invoice','')}</span></td><td style="font-size:11px">${i.pay||''}</td><td>${abtns('invoices',i.id)}</td></tr>`).join(''):emptyRow('Nenhuma invoice. Clique em "Nova Invoice".');}
+function rPack(){const tb=document.getElementById('tb-pack');tb.innerHTML=db.packing.length?db.packing.map(p=>`<tr><td><strong>${p.num}</strong></td><td>${p.inv}</td><td>${p.cli}</td><td>${p.ctns} ctns</td><td>${p.wt} kg</td><td>${p.cbm} m³</td><td style="font-size:11px">${p.marks||''}</td><td>${abtns('packing',p.id)}</td></tr>`).join(''):emptyRow('Nenhuma packing list.');}
+function rContainers(){
+  const t=db.containers.filter(c=>c.st==='sailing').length;
+  const w=db.containers.filter(c=>['booking','stuffing','origin_port'].includes(c.st)).length;
+  const d=db.containers.filter(c=>c.st==='delivered').length;
+  document.getElementById('con-t').textContent=t;document.getElementById('con-w').textContent=w;document.getElementById('con-d').textContent=d;
+  const el=document.getElementById('con-list');
+  if(!db.containers.length){el.innerHTML='<div style="text-align:center;padding:48px;color:var(--text2)"><i class="ti ti-container" style="font-size:40px;opacity:.25;display:block;margin-bottom:10px"></i>Nenhum contêiner. Clique em "Novo Contêiner".</div>';return;}
+  el.innerHTML=db.containers.map(c=>{
+    const si=CON_STEPS.findIndex(s=>s.key===c.st);
+    const pct=Math.round(((si+1)/CON_STEPS.length)*100);
+    return`<div class="card" style="margin-bottom:12px">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;gap:10px">
+        <div><div style="font-size:14px;font-weight:700">${c.num}</div><div style="font-size:11px;color:var(--text2);margin-top:2px">${c.cli} · ${c.type||'40 GP'} · ${c.carrier||'—'}</div></div>
+        <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">${stag(c.st)}${abtns('containers',c.id)}</div>
+      </div>
+      <div style="display:flex;gap:16px;font-size:11px;color:var(--text2);margin-bottom:10px;flex-wrap:wrap">
+        <span><i class="ti ti-ship"></i> ${c.vessel||'—'}</span>
+        <span><i class="ti ti-map-pin"></i> ${c.pol||'—'} → ${c.pod||'—'}</span>
+        <span><i class="ti ti-calendar"></i> ETD: ${c.etd||'—'} &nbsp;|&nbsp; ETA: <strong style="color:var(--text)">${c.eta||'—'}</strong></span>
+        <span>PO: <strong style="color:var(--text)">${c.po||'—'}</strong></span>
+      </div>
+      <div style="margin-bottom:8px">
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text2);margin-bottom:5px"><span>Progresso da Carga</span><span style="font-weight:700;color:var(--red)">${pct}%</span></div>
+        <div style="height:7px;background:var(--bg3);border-radius:4px;overflow:hidden"><div style="height:100%;width:${pct}%;background:var(--red);border-radius:4px;transition:width .4s"></div></div>
+      </div>
+      <div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:8px">
+        ${CON_STEPS.map((s,i)=>`<div style="padding:3px 8px;border-radius:5px;font-size:10px;font-weight:700;background:${i<si?'#EAF3DE':i===si?'var(--red)':'var(--bg3)'};color:${i<si?'#27500A':i===si?'#fff':'var(--text2)'}">${s.label}</div>`).join('')}
+      </div>
+      ${c.loc?`<div style="font-size:11px;color:var(--text2);margin-top:10px;padding-top:10px;border-top:1px solid var(--border)"><i class="ti ti-map-pin"></i> <em>${c.loc}</em></div>`:''}
+      ${c.notes?`<div style="font-size:11px;color:var(--text2);margin-top:4px"><i class="ti ti-note"></i> ${c.notes}</div>`:''}
+    </div>`;
+  }).join('');
+}
+function rFin(){
+  let brl=0,usd=0,rmb=0;
+  db.txs.forEach(t=>{const v=Number(t.val)||0,s=t.type==='receivable'?1:-1;if(t.cur==='BRL')brl+=s*v;else if(t.cur==='USD')usd+=s*v;else rmb+=s*v;});
+  document.getElementById('f-brl').textContent='R$ '+brl.toLocaleString('pt-BR',{minimumFractionDigits:2});
+  document.getElementById('f-usd').textContent='$ '+usd.toLocaleString('en-US',{minimumFractionDigits:2});
+  document.getElementById('f-rmb').textContent='¥ '+rmb.toLocaleString('zh-CN',{minimumFractionDigits:2});
+  const list=ft==='all'?db.txs:db.txs.filter(t=>t.type===ft);
+  const tb=document.getElementById('tb-fin');
+  tb.innerHTML=list.length?list.map(t=>`<tr><td>${t.date}</td><td>${t.desc}</td><td><span class="tag ${t.type==='receivable'?'tg':'ta'}">${t.type==='receivable'?'A Receber':'A Pagar'}</span></td><td>${fmtR(t.val,t.cur)}</td><td>${t.cur}</td><td>${stag(t.st)}</td><td>${abtns('txs',t.id)}</td></tr>`).join(''):emptyRow('Nenhum lançamento.',7);
+}
+function rClients(){const tb=document.getElementById('tb-cli');tb.innerHTML=db.clients.length?db.clients.map(c=>`<tr><td><strong>${c.name}</strong></td><td>${c.country}</td><td>${c.email}</td><td>${c.phone}</td><td>${db.orders.filter(o=>o.cli===c.name).length}</td><td>${abtns('clients',c.id)}</td></tr>`).join(''):emptyRow('Nenhum cliente cadastrado.',6);}
+function rSups(){const tb=document.getElementById('tb-sup');tb.innerHTML=db.suppliers.length?db.suppliers.map(s=>`<tr><td><strong>${s.name}</strong></td><td>${s.city}</td><td>${s.cat}</td><td>${s.wc}</td><td>${stag(s.st)}</td><td>${abtns('suppliers',s.id)}</td></tr>`).join(''):emptyRow('Nenhum fornecedor.',6);}
+function rUsers(){const tb=document.getElementById('tb-users');tb.innerHTML=db.users.map(u=>`<tr><td><div style="display:flex;align-items:center;gap:8px"><div class="av" style="width:24px;height:24px;font-size:9px">${u.name.split(' ').map(x=>x[0]).join('').slice(0,2).toUpperCase()}</div>${u.name}</div></td><td>${u.email}</td><td><span class="tag tb">${u.role}</span></td><td>${stag(u.status)}</td><td style="font-size:10px;color:var(--text2)">${Object.entries(u.perms||{}).filter(([,v])=>v).map(([k])=>k).join(', ')||'—'}</td><td>${u.id!=='u1'?abtns('users',u.id):''}</td></tr>`).join('');}
+
+function rReport(tab){
+  const el=document.getElementById('rep-body');if(!el)return;
+  if(tab==='orders'){
+    const byS={};db.orders.forEach(o=>{byS[o.st]=(byS[o.st]||0)+1;});
+    const totalV=db.invoices.reduce((a,i)=>a+conv(Number(i.val)||0,i.cur),0);
+    el.innerHTML=`<div class="cg"><div class="sc"><div class="sl">Total Pedidos</div><div class="sv">${db.orders.length}</div></div><div class="sc"><div class="sl">Receita (invoices)</div><div class="sv">${fmt(totalV)}</div></div><div class="sc"><div class="sl">Em Produção</div><div class="sv">${byS['producao']||0}</div></div><div class="sc"><div class="sl">Entregues</div><div class="sv">${byS['entregue']||0}</div></div></div>
+    <div class="card"><div class="ct">Pedidos por Status</div>${Object.entries(byS).length?Object.entries(byS).map(([s,n])=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border)">${stag(s)}<strong>${n}</strong></div>`).join(''):'<div style="color:var(--text2);font-size:12px;padding:8px 0">Sem dados ainda.</div>'}</div>`;
+  }else if(tab==='fin'){
+    let brl=0,usd=0,rmb=0;
+    db.txs.filter(t=>t.type==='receivable').forEach(t=>{const v=Number(t.val)||0;if(t.cur==='BRL')brl+=v;else if(t.cur==='USD')usd+=v;else rmb+=v;});
+    el.innerHTML=`<div class="cg"><div class="sc"><div class="sl">A Receber</div><div class="sv">${db.txs.filter(t=>t.type==='receivable').length}</div><div class="ss">lançamentos</div></div><div class="sc"><div class="sl">A Pagar</div><div class="sv">${db.txs.filter(t=>t.type==='payable').length}</div><div class="ss">lançamentos</div></div></div>
+    <div class="card"><div class="ct">Saldos por Moeda (A Receber)</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;justify-content:space-between;padding:10px;background:var(--bg3);border-radius:8px"><span>🇧🇷 BRL</span><strong>R$ ${brl.toLocaleString('pt-BR',{minimumFractionDigits:2})}</strong></div>
+        <div style="display:flex;justify-content:space-between;padding:10px;background:var(--bg3);border-radius:8px"><span>🇺🇸 USD</span><strong>$ ${usd.toLocaleString('en-US',{minimumFractionDigits:2})}</strong></div>
+        <div style="display:flex;justify-content:space-between;padding:10px;background:var(--bg3);border-radius:8px"><span>🇨🇳 RMB</span><strong>¥ ${rmb.toLocaleString('zh-CN',{minimumFractionDigits:2})}</strong></div>
+      </div>
+    </div>`;
+  }else if(tab==='containers'){
+    const byC={};db.containers.forEach(c=>{byC[c.carrier]=(byC[c.carrier]||0)+1;});
+    el.innerHTML=`<div class="cg"><div class="sc"><div class="sl">Total</div><div class="sv">${db.containers.length}</div></div><div class="sc"><div class="sl">Em Trânsito</div><div class="sv">${db.containers.filter(c=>c.st==='sailing').length}</div></div><div class="sc"><div class="sl">Entregues</div><div class="sv">${db.containers.filter(c=>c.st==='delivered').length}</div></div></div>
+    <div class="card"><div class="ct">Por Armador</div>${Object.entries(byC).length?Object.entries(byC).map(([car,n])=>`<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border)"><span>${car||'N/A'}</span><strong>${n}</strong></div>`).join(''):'<div style="color:var(--text2);font-size:12px;padding:8px 0">Sem dados.</div>'}</div>`;
+  }else if(tab==='clients'){
+    el.innerHTML=`<div class="cg"><div class="sc"><div class="sl">Total Clientes</div><div class="sv">${db.clients.length}</div></div><div class="sc"><div class="sl">Total Fornecedores</div><div class="sv">${db.suppliers.length}</div></div></div>
+    <div class="card"><div class="ct">Clientes por País</div>${(()=>{const byP={};db.clients.forEach(c=>{byP[c.country]=(byP[c.country]||0)+1;});return Object.entries(byP).length?Object.entries(byP).map(([p,n])=>`<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border)"><span>${p||'N/A'}</span><strong>${n}</strong></div>`).join(''):'<div style="color:var(--text2);font-size:12px;padding:8px 0">Sem dados.</div>';})()}</div>`;
+  }
+}
+function setRep(t,el){repTab=t;document.querySelectorAll('.ftab').forEach(x=>x.classList.remove('on'));if(el)el.classList.add('on');rReport(t);}
+
+function toast(msg,dur=3000){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),dur);}
+
+// CSV Export
+function toCsv(rows){return rows.map(r=>r.map(c=>`"${String(c||'').replace(/"/g,'""')}"`).join(',')).join('\n');}
+function dlFile(name,content,mime='text/csv;charset=utf-8'){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+content],{type:mime}));a.download=name;a.click();}
+
+function exportCsv(type){
+  const d=new Date().toISOString().split('T')[0];
+  if(type==='orders'){
+    const rows=[['Nº Pedido','Cliente','Data','Valor','Moeda','Incoterm','Status','Observações'],...db.orders.map(o=>[o.num,o.cli,o.date,o.val,o.cur,o.inc,o.st,o.notes||''])];
+    dlFile(`TK_Global_Pedidos_${d}.csv`,toCsv(rows));toast('Pedidos exportados com sucesso!');}
+  else if(type==='fin'){
+    const rows=[['Data','Descrição','Tipo','Valor','Moeda','Status'],...db.txs.map(t=>[t.date,t.desc,t.type==='receivable'?'A Receber':'A Pagar',t.val,t.cur,t.st])];
+    dlFile(`TK_Global_Financeiro_${d}.csv`,toCsv(rows));toast('Financeiro exportado com sucesso!');}
+  else if(type==='containers'){
+    const rows=[['Nº Contêiner','PO Ref.','Cliente','Tipo','Armador','Navio','POL','POD','ETD','ETA','Status','Localização'],...db.containers.map(c=>[c.num,c.po,c.cli,c.type,c.carrier,c.vessel,c.pol,c.pod,c.etd,c.eta,c.st,c.loc||''])];
+    dlFile(`TK_Global_Conteineres_${d}.csv`,toCsv(rows));toast('Contêineres exportados com sucesso!');}
+  else if(type==='clients'){
+    const rows=[['Nome','País','Email','WhatsApp','Endereço'],...db.clients.map(c=>[c.name,c.country,c.email,c.phone,c.addr||''])];
+    dlFile(`TK_Global_Clientes_${d}.csv`,toCsv(rows));toast('Clientes exportados com sucesso!');}
+}
+function exportJson(){const d=new Date().toISOString().split('T')[0];dlFile(`TK_Global_Backup_${d}.json`,JSON.stringify(db,null,2),'application/json');toast('Backup completo exportado!');}
+function importJson(){document.getElementById('imp-file').click();}
+function doImport(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const data=JSON.parse(ev.target.result);if(data.orders&&data.users){db=data;saveDB();rAll();toast('Backup restaurado com sucesso!');}else toast('Arquivo inválido.');}catch(err){toast('Erro ao ler o arquivo.');}};r.readAsText(f);e.target.value='';}
+
+const uid=()=>'id'+Date.now()+Math.random().toString(36).slice(2,5);
+const tod=()=>new Date().toISOString().split('T')[0];
+const om=id=>document.getElementById(id).classList.add('on');
+const cm=id=>document.getElementById(id).classList.remove('on');
+const gv=id=>{const e=document.getElementById(id);return e?e.value:'';};
+const sv=(id,v)=>{const e=document.getElementById(id);if(e)e.value=v===undefined?'':v;};
+
+function newItem(){const a=document.querySelector('.pg.on');if(!a)return;const id=a.id.replace('pg-','');({dash:openOrder,orders:openOrder,invoices:openInvoice,packing:openPacking,containers:openContainer,fin:openTx,clients:openClient,suppliers:openSupplier,users:openUser}[id]||openOrder)();}
+
+function openOrder(o){sv('o-id',o?o.id:'');document.getElementById('m-ord-t').textContent=o?'Editar Pedido':'Novo Pedido';sv('o-num',o?o.num:'PO-'+new Date().getFullYear()+'-'+String(db.orders.length+1).padStart(3,'0'));sv('o-date',o?o.date:tod());sv('o-cli',o?o.cli:'');sv('o-desc',o?o.desc:'');sv('o-val',o?o.val:'');sv('o-cur',o?o.cur:'USD');sv('o-st',o?o.st:'novo');sv('o-inc',o?o.inc:'FOB');sv('o-notes',o?o.notes:'');om('ov-order');}
+function saveOrder(){const id=gv('o-id');const o={id:id||uid(),num:gv('o-num'),date:gv('o-date'),cli:gv('o-cli'),desc:gv('o-desc'),val:gv('o-val'),cur:gv('o-cur'),st:gv('o-st'),inc:gv('o-inc'),notes:gv('o-notes')};if(id){const i=db.orders.findIndex(x=>x.id===id);db.orders[i]=o;}else db.orders.push(o);saveDB();rOrders();rDash();cm('ov-order');toast('Pedido salvo!');}
+
+function openInvoice(o){sv('inv-id',o?o.id:'');sv('inv-num',o?o.num:'INV-'+new Date().getFullYear()+'-'+String(db.invoices.length+1).padStart(3,'0'));sv('inv-date',o?o.date:tod());sv('inv-po',o?o.po:'');sv('inv-cli',o?o.cli:'');sv('inv-items',o?o.items:'');sv('inv-val',o?o.val:'');sv('inv-cur',o?o.cur:'USD');sv('inv-type',o?o.type:'Proforma Invoice');sv('inv-pay',o?o.pay:'T/T 30% + 70%');sv('inv-pol',o?o.pol:'');sv('inv-pod',o?o.pod:'');om('ov-invoice');}
+function saveInvoice(){const id=gv('inv-id');const o={id:id||uid(),num:gv('inv-num'),date:gv('inv-date'),po:gv('inv-po'),cli:gv('inv-cli'),items:gv('inv-items'),val:gv('inv-val'),cur:gv('inv-cur'),type:gv('inv-type'),pay:gv('inv-pay'),pol:gv('inv-pol'),pod:gv('inv-pod')};if(id){const i=db.invoices.findIndex(x=>x.id===id);db.invoices[i]=o;}else db.invoices.push(o);saveDB();rInvs();rDash();cm('ov-invoice');toast('Invoice salva!');}
+
+function openPacking(o){sv('pk-id',o?o.id:'');sv('pk-num',o?o.num:'PL-'+new Date().getFullYear()+'-'+String(db.packing.length+1).padStart(3,'0'));sv('pk-inv',o?o.inv:'');sv('pk-cli',o?o.cli:'');sv('pk-desc',o?o.desc:'');sv('pk-ctns',o?o.ctns:'');sv('pk-wt',o?o.wt:'');sv('pk-cbm',o?o.cbm:'');sv('pk-marks',o?o.marks:'');om('ov-packing');}
+function savePacking(){const id=gv('pk-id');const o={id:id||uid(),num:gv('pk-num'),inv:gv('pk-inv'),cli:gv('pk-cli'),desc:gv('pk-desc'),ctns:gv('pk-ctns'),wt:gv('pk-wt'),cbm:gv('pk-cbm'),marks:gv('pk-marks')};if(id){const i=db.packing.findIndex(x=>x.id===id);db.packing[i]=o;}else db.packing.push(o);saveDB();rPack();cm('ov-packing');toast('Packing List salva!');}
+
+function openContainer(o){sv('con-id',o?o.id:'');document.getElementById('m-con-t').textContent=o?'Editar Contêiner':'Novo Contêiner';sv('con-num',o?o.num:'');sv('con-po',o?o.po:'');sv('con-cli',o?o.cli:'');sv('con-type',o?o.type:"40' GP");sv('con-vessel',o?o.vessel:'');sv('con-carrier',o?o.carrier:'MSC');sv('con-pol',o?o.pol:'');sv('con-pod',o?o.pod:'');sv('con-etd',o?o.etd:'');sv('con-eta',o?o.eta:'');sv('con-st',o?o.st:'booking');sv('con-loc',o?o.loc:'');sv('con-notes',o?o.notes:'');om('ov-container');}
+function saveContainer(){const id=gv('con-id');const o={id:id||uid(),num:gv('con-num'),po:gv('con-po'),cli:gv('con-cli'),type:gv('con-type'),vessel:gv('con-vessel'),carrier:gv('con-carrier'),pol:gv('con-pol'),pod:gv('con-pod'),etd:gv('con-etd'),eta:gv('con-eta'),st:gv('con-st'),loc:gv('con-loc'),notes:gv('con-notes')};if(id){const i=db.containers.findIndex(x=>x.id===id);db.containers[i]=o;}else db.containers.push(o);saveDB();rContainers();rDash();cm('ov-container');toast('Contêiner salvo!');}
+
+function openTx(o){sv('tx-id',o?o.id:'');sv('tx-date',o?o.date:tod());sv('tx-type',o?o.type:'receivable');sv('tx-desc',o?o.desc:'');sv('tx-val',o?o.val:'');sv('tx-cur',o?o.cur:'USD');sv('tx-st',o?o.st:'pendente');om('ov-tx');}
+function saveTx(){const id=gv('tx-id');const o={id:id||uid(),date:gv('tx-date'),type:gv('tx-type'),desc:gv('tx-desc'),val:gv('tx-val'),cur:gv('tx-cur'),st:gv('tx-st')};if(id){const i=db.txs.findIndex(x=>x.id===id);db.txs[i]=o;}else db.txs.push(o);saveDB();rFin();rDash();cm('ov-tx');toast('Lançamento salvo!');}
+
+function openClient(o){sv('cl-id',o?o.id:'');sv('cl-name',o?o.name:'');sv('cl-country',o?o.country:'');sv('cl-email',o?o.email:'');sv('cl-phone',o?o.phone:'');sv('cl-addr',o?o.addr:'');sv('cl-notes',o?o.notes:'');om('ov-client');}
+function saveClient(){const id=gv('cl-id');const o={id:id||uid(),name:gv('cl-name'),country:gv('cl-country'),email:gv('cl-email'),phone:gv('cl-phone'),addr:gv('cl-addr'),notes:gv('cl-notes')};if(id){const i=db.clients.findIndex(x=>x.id===id);db.clients[i]=o;}else db.clients.push(o);saveDB();rClients();rDash();cm('ov-client');toast('Cliente salvo!');}
+
+function openSupplier(o){sv('sp-id',o?o.id:'');sv('sp-name',o?o.name:'');sv('sp-city',o?o.city:'');sv('sp-cat',o?o.cat:'');sv('sp-wc',o?o.wc:'');sv('sp-email',o?o.email:'');sv('sp-st',o?o.st:'ativo');om('ov-supplier');}
+function saveSupplier(){const id=gv('sp-id');const o={id:id||uid(),name:gv('sp-name'),city:gv('sp-city'),cat:gv('sp-cat'),wc:gv('sp-wc'),email:gv('sp-email'),st:gv('sp-st')};if(id){const i=db.suppliers.findIndex(x=>x.id===id);db.suppliers[i]=o;}else db.suppliers.push(o);saveDB();rSups();cm('ov-supplier');toast('Fornecedor salvo!');}
+
+function openUser(o){sv('u-id',o?o.id:'');document.getElementById('m-usr-t').textContent=o?'Editar Usuário':'Novo Usuário';sv('u-name',o?o.name:'');sv('u-email',o?o.email:'');sv('u-role',o?o.role:'operacional');sv('u-st',o?o.status:'ativo');['orders','invoices','packing','containers','fin','fx','clients','suppliers','reports','export','chat','users'].forEach(p=>{const el=document.getElementById('p-'+p);if(el)el.checked=!!(o&&o.perms&&o.perms[p]);});if(!o)applyRole();om('ov-user');}
+function applyRole(){const r=gv('u-role');const m={admin:['orders','invoices','packing','containers','fin','fx','clients','suppliers','reports','export','chat','users'],comercial:['orders','invoices','clients','chat','reports'],financeiro:['fin','fx','invoices','chat','reports','export'],logistica:['orders','packing','containers','suppliers','chat'],operacional:['orders','chat']};['orders','invoices','packing','containers','fin','fx','clients','suppliers','reports','export','chat','users'].forEach(p=>{const el=document.getElementById('p-'+p);if(el)el.checked=(m[r]||[]).includes(p);});}
+function saveUser(){const id=gv('u-id');const perms={};['orders','invoices','packing','containers','fin','fx','clients','suppliers','reports','export','chat','users'].forEach(p=>{const el=document.getElementById('p-'+p);if(el)perms[p]=el.checked?1:0;});const o={id:id||uid(),name:gv('u-name'),email:gv('u-email'),role:gv('u-role'),status:gv('u-st'),perms};if(id){const i=db.users.findIndex(x=>x.id===id);db.users[i]=o;}else db.users.push(o);saveDB();rUsers();cm('ov-user');toast('Usuário salvo!');}
+
+function edit(col,id){const o=db[col].find(x=>x.id===id);if(!o)return;({orders:openOrder,invoices:openInvoice,packing:openPacking,containers:openContainer,txs:openTx,clients:openClient,suppliers:openSupplier,users:openUser}[col])(o);}
+function del(col,id){if(!confirm('Confirmar exclusão?'))return;db[col]=db[col].filter(x=>x.id!==id);saveDB();rAll();toast('Item excluído.');}
+function setFt(t,el){ft=t;document.querySelectorAll('.ftab').forEach(x=>x.classList.remove('on'));if(el)el.classList.add('on');rFin();}
+
+function sendMsg(){const inp=document.getElementById('ch-inp');const msg=inp.value.trim();if(!msg)return;const ch=document.getElementById('ch-chan').value;const u=db.users[0]||{name:'Você'};const t=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});const init=u.name.split(' ').map(x=>x[0]).join('').slice(0,2).toUpperCase();const msgs=document.getElementById('chat-msgs');msgs.innerHTML+=`<div class="cm me"><div class="av" style="width:26px;height:26px;font-size:9px;flex-shrink:0">${init}</div><div><div class="cmeta" style="text-align:right">${u.name} · #${ch} · ${t}</div><div class="cb2">${msg}</div></div></div>`;msgs.scrollTop=9999;inp.value='';db.chat.push({id:uid(),user:u.name,msg,ch,t});saveDB();}
+
+function syncFx(){const{ub,cb,cu}=db.fx;['ub','cb','cu'].forEach(k=>{const e=document.getElementById('fx-'+k);if(e)e.textContent=db.fx[k].toFixed(4);const i=document.getElementById('i-'+k);if(i)i.value=db.fx[k];});}
+function saveRates(){db.fx={ub:parseFloat(gv('i-ub'))||5,cb:parseFloat(gv('i-cb'))||0.7,cu:parseFloat(gv('i-cu'))||0.14};saveDB();syncFx();calcFx();rDash();rFin();toast('Taxas de câmbio atualizadas!');}
+function calcFx(){const v=parseFloat(gv('cv-val'))||0,f=gv('cv-from'),t=gv('cv-to'),{ub,cu}=db.fx;const u=f==='USD'?v:f==='CNY'?v*cu:v/ub;const r=t==='USD'?u:t==='CNY'?u/cu:u*ub;const sym={BRL:'R$ ',USD:'$ ',CNY:'¥ '}[t]||'';const el=document.getElementById('cv-res');if(el)el.textContent='= '+sym+r.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});}
+
+// Close modals on outside click
+document.querySelectorAll('.modal-wrap').forEach(m=>m.addEventListener('click',function(e){if(e.target===this)this.classList.remove('on');}));
+// Responsive dash grid
+function fixGrid(){const gs=document.querySelectorAll('.dash-grid');gs.forEach(g=>g.style.gridTemplateColumns=window.innerWidth<640?'1fr':'1fr 1fr');}
+window.addEventListener('resize',fixGrid);fixGrid();
+
+loadDB();
+</script>
+</body>
+</html>
